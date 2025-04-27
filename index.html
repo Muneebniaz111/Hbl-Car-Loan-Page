@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Loan Calculator</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <h1>Lets Plan Your Finance The Right Way</h1>
+
+<!-- Loan Options -->
+<div class="loan-options">
+    <button class="option">Creditcard Installment plan</button>
+    <button class="option active">Car Loan</button>
+    <button class="option">Personal Loan</button>
+</div>
+
+<!-- Main Container -->
+<div class="container">
+    <!-- Left Section: Vehicle Price, Repayment Period, Security Deposit -->
+    <div class="calculator">
+        <div class="left-section">
+            <!-- Vehicle Price -->
+            <h4>Vehicle Price</h4>
+            <div class="control">
+                <div class="circle-btn" onclick="updateValue('price', -10000)">
+                    <div class="inner-btn">
+                        <img src="Down-Arrow.png" alt="Arrow Down" class="arrow-icon">
+                    </div>
+                </div> 
+                <div class="value-btn">
+                    <div class="inner-value" id="vehicle-price">200,000</div>
+                </div>
+                <div class="circle-btn" onclick="updateValue('price', 10000)">
+                    <div class="inner-btn">
+                        <img src="Arrow.png" alt="Arrow Up" class="arrow-icon">
+                </div>
+                </div>
+            </div>
+            <h5>PKR</h5>
+
+            <!-- Repayment Period -->
+            <h4>To Repay in</h4>
+            <div class="control">
+                <div class="circle-btn" onclick="updateValue('price', -10000)">
+                    <div class="inner-btn">
+                        <img src="Down-Arrow.png" alt="Arrow Down" class="arrow-icon">
+                    </div>
+                </div> 
+                <div class="value-btn">
+                    <div class="inner-value" id="repay-months">48</div>
+                </div>
+                <div class="circle-btn" onclick="updateValue('price', 10000)">
+                    <div class="inner-btn">
+                        <img src="Arrow.png" alt="Arrow Up" class="arrow-icon">
+                </div>
+                </div>
+            </div>
+            <h5>Months</h5>
+
+            <!-- Security Deposit -->
+            <h4>Security Deposit</h4>
+            <div class="control">
+                <div class="circle-btn" onclick="updateValue('price', -10000)">
+                    <div class="inner-btn">
+                        <img src="Down-Arrow.png" alt="Arrow Down" class="arrow-icon">
+                    </div>
+                </div>  
+                <div class="value-btn">
+                    <div class="inner-value" id="security-deposit">40%</div>
+                </div>
+                <div class="circle-btn" onclick="updateValue('price', 10000)">
+                    <div class="inner-btn">
+                        <img src="Arrow.png" alt="Arrow Up" class="arrow-icon">
+                </div>
+                </div>
+            </div>
+            <h5>Percentage</h5>
+        </div>
+    </div>
+
+    <!-- Right Section -->
+    <div class="right-section">
+        <!-- Car Image -->
+        <div class="car-image">
+            <img src="car.png" alt="Car Image">
+        </div>
+
+        <!-- Results Section -->
+        <div class="results">
+            <div class="ins-container">
+                <div class="left-text">
+                    <p>Your Monthly Installments will be just</p>
+                </div>
+                <div class="divid"></div>
+                <div class="right-text">
+                    <h2 id="monthly-installment"><span>PKR</span> 48,242</h2>
+                </div>
+            </div>
+            <div class="result-box financed">
+                <p>Financed Amount</p>
+                <div class="divider"></div>
+                <h2 id="financed-amount">PKR <span>1,513,294*</span></h2>
+            </div>        
+            <div class="result-box security-deposit">
+                <p>Security Deposit</p>
+                <div class="divider"></div>
+                <h2 id="deposit-amount">PKR 1,008,862</h2>
+            </div>        
+        </div>
+
+        <!-- Apply Now Buttons -->
+        <div class="buttons">
+            <button class="apply">
+                Apply Now 
+                <img src="tabler_arrow-up.png" alt="Arrow Up" class="button-arrow">
+            </button>
+            <button class="info" onclick="showMessage('info')">
+                More Info
+                <img src="tabler_arrow-up.png" alt="Arrow Up" class="button-arrow">
+            </button> 
+        </div>
+    </div>
+</div>
+
+    <script src="script.js"></script>
+</body>
+</html>
