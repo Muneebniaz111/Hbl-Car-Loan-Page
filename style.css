@@ -11,7 +11,7 @@ body {
     text-align: center;
     margin: 0;
     padding: 35px;
-    padding-bottom: 5px;
+    padding-bottom: 71px;
 }
 
 h1 {
@@ -24,14 +24,15 @@ h1 {
     margin-left: 0;
 }
 
-/* Loan Options */
+/* Loan Options inside the calculator */
 .loan-options {
     display: flex;
     justify-content: space-between;
     background: linear-gradient(to right, #06543e, #0f8a6d);
     border-radius: 50px;
     padding: 10px;
-    width: 35%;
+    width: 100%; /* Full width within the calculator */
+    margin-bottom: 20px; /* Space between loan options and calculator controls */
     border: 2px solid white;
 }
 
@@ -51,21 +52,32 @@ h1 {
     color: #06543e;
 }
 
-/* Container */
+/* Main Container */
 .container {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     padding: 20px;
-    flex-wrap: wrap;
 }
 
+/* Left Section (Calculator) */
 .calculator {
-    padding-left: 100px; 
+    width: 40%; /* Takes up 40% of the screen */
 }
 
+.left-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.left-section h4, .left-section h6 {
+    margin: 10px 0;
+    color: white;
+}
+
+/* Right Section */
 .right-section {
-    width: 70%;
+    width: 55%; /* Takes up 55% of the screen */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -88,17 +100,6 @@ h1 {
     height: 20px;
     margin-left: 8px; 
     vertical-align: middle;
-}
-
-/* Left Section */
-.left-section {
-    display: flex;
-    flex-direction: column;
-}
-
-.left-section h4, .left-section h6 {
-    margin: 10px 0;
-    color: white;
 }
 
 /* Controls */
@@ -286,118 +287,4 @@ h1 {
 .buttons button:hover {
     background: white;
     color: #06543e;
-}
-
-/* Breakpoints for Responsive Design */
-
-/* For screens smaller than 1200px (larger tablets / small laptops) */
-@media (max-width: 1200px) {
-    .container {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .right-section {
-        width: 80%;
-    }
-
-    .car-image img {
-        width: 100%;
-        max-width: 750px;
-    }
-
-    .calculator {
-        padding-left: 50px;
-    }
-}
-
-/* For screens smaller than 992px (tablets) */
-@media (max-width: 992px) {
-    .container {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .calculator, .right-section {
-        width: 100%;
-    }
-
-    .result-box {
-        width: 100%;
-        max-width: 300px;
-    }
-
-    .buttons {
-        flex-direction: column;
-        align-items: center;
-    }
-}
-
-/* For screens smaller than 768px (small tablets / mobile devices) */
-@media (max-width: 768px) {
-    h1 {
-        font-size: 36px;
-    }
-
-    .loan-options {
-        width: 100%;
-        margin-bottom: 20px;
-    }
-
-    .loan-options button {
-        padding: 10px 20px;
-        font-size: 14px;
-    }
-
-    .container {
-        padding: 10px;
-    }
-
-    .right-section {
-        width: 100%;
-    }
-
-    .car-image img {
-        width: 100%;
-        max-width: 600px;
-    }
-
-    .calculator {
-        padding-left: 20px;
-    }
-}
-
-/* For screens smaller than 480px (small mobile devices) */
-@media (max-width: 480px) {
-    h1 {
-        font-size: 28px;
-    }
-
-    .loan-options button {
-        font-size: 12px;
-        padding: 8px 15px;
-    }
-
-    .value-btn {
-        width: 180px;
-    }
-
-    .inner-value {
-        font-size: 24px;
-        padding: 8px 25px;
-    }
-
-    .right-text h2 {
-        font-size: 20px;
-    }
-
-    .result-box {
-        width: 100%;
-        max-width: 250px;
-    }
-
-    .buttons button {
-        font-size: 14px;
-        padding: 10px 15px;
-    }
 }
