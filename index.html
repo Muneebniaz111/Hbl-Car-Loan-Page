@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Car Loan Calculator</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
-  <h1>Lets Plan Your Finance The Right Way</h1>
+  <h1>Let's Plan Your Finance The Right Way</h1>
 
-  <!-- Main Container -->
   <div class="container">
+    <!-- Left Calculator -->
     <div class="calculator">
-      <!-- Loan Options inside the calculator -->
       <div class="loan-options">
         <button class="option">Creditcard Installment plan</button>
         <button class="option active">Car Loan</button>
@@ -21,13 +21,12 @@
       </div>
 
       <div class="left-section">
-
         <!-- Vehicle Price -->
         <h4>Vehicle Price</h4>
         <div class="control">
           <div class="circle-btn" onclick="updateValue('price', -10000)">
             <div class="inner-btn">
-              <img src="Down-Arrow.png" alt="Arrow Down" class="arrow-icon">
+              <img src="Down-Arrow.png" alt="Arrow Down" class="arrow-icon"/>
             </div>
           </div>
           <div class="value-btn">
@@ -35,7 +34,7 @@
           </div>
           <div class="circle-btn" onclick="updateValue('price', 10000)">
             <div class="inner-btn">
-              <img src="Arrow.png" alt="Arrow Up" class="arrow-icon">
+              <img src="Arrow.png" alt="Arrow Up" class="arrow-icon"/>
             </div>
           </div>
         </div>
@@ -46,7 +45,7 @@
         <div class="control">
           <div class="circle-btn" onclick="updateValue('months', -1)">
             <div class="inner-btn">
-              <img src="Down-Arrow.png" alt="Arrow Down" class="arrow-icon">
+              <img src="Down-Arrow.png" alt="Arrow Down" class="arrow-icon"/>
             </div>
           </div>
           <div class="value-btn">
@@ -54,7 +53,7 @@
           </div>
           <div class="circle-btn" onclick="updateValue('months', 1)">
             <div class="inner-btn">
-              <img src="Arrow.png" alt="Arrow Up" class="arrow-icon">
+              <img src="Arrow.png" alt="Arrow Up" class="arrow-icon"/>
             </div>
           </div>
         </div>
@@ -65,7 +64,7 @@
         <div class="control">
           <div class="circle-btn" onclick="updateValue('deposit', -5)">
             <div class="inner-btn">
-              <img src="Down-Arrow.png" alt="Arrow Down" class="arrow-icon">
+              <img src="Down-Arrow.png" alt="Arrow Down" class="arrow-icon"/>
             </div>
           </div>
           <div class="value-btn">
@@ -73,19 +72,18 @@
           </div>
           <div class="circle-btn" onclick="updateValue('deposit', 5)">
             <div class="inner-btn">
-              <img src="Arrow.png" alt="Arrow Up" class="arrow-icon">
+              <img src="Arrow.png" alt="Arrow Up" class="arrow-icon"/>
             </div>
           </div>
         </div>
         <h5>Percentage</h5>
-
       </div>
     </div>
 
     <!-- Right Section -->
     <div class="right-section">
       <div class="car-image">
-        <img src="car.png" alt="Car Image">
+        <img src="car.png" alt="Car Image" />
       </div>
 
       <div class="results">
@@ -114,17 +112,26 @@
 
       <div class="buttons">
         <button class="apply">
-          Apply Now 
-          <img src="tabler_arrow-up.png" alt="Arrow Up" class="button-arrow">
+          Apply Now
+          <img src="tabler_arrow-up.png" alt="Arrow Up" class="button-arrow"/>
         </button>
-        <button class="info" onclick="showMessage('info')">
+        <button class="info">
           More Info
-          <img src="tabler_arrow-up.png" alt="Arrow Up" class="button-arrow">
+          <img src="tabler_arrow-up.png" alt="Arrow Up" class="button-arrow"/>
         </button>
+
+        <!-- ✅ Predict Future EMIs button opens EMIs.html in new tab -->
+        <a href="EMIs.html" target="_blank">
+          <button class="ai">
+            Predict Future EMIs
+            <img src="tabler_arrow-up.png" alt="Arrow Up" class="button-arrow"/>
+          </button>
+        </a>
       </div>
     </div>
   </div>
 
-  <script src="script.js"></script>
+<script src="script.js" defer></script>
+
 </body>
 </html>

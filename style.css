@@ -288,3 +288,15 @@ h1 {
     background: white;
     color: #06543e;
 }
+.forecast-section {
+    margin-top: 40px;
+    width: 100%;
+    text-align: center;
+}
+.forecast-section select {
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: none;
+    margin-top: 10px;
+}

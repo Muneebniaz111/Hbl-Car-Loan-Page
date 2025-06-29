@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EMI Forecast Chart</title>
+  <style>
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(to bottom, #06543e, #0f8a6d),
+        url('vector-pattern.png');
+    background-blend-mode: overlay;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    color: white;
+    margin: 0;
+    height: 100vh; /* Full viewport height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0; /* Remove padding to avoid layout shift */
+}
+
+.forecast-section {
+    background-color: #2d2d2d;
+    padding: 20px;
+    border-radius: 15px;
+    max-width: 600px;
+    width: 90%;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
+
+h3 {
+    text-align: center;
+    color: rgb(0, 0, 0);
+    margin-bottom: 10px;
+}
+
+label, select {
+    display: block;
+    margin: 10px 0;
+
+}
+
+select {
+    padding: 8px;
+    border-radius: 5px;
+    width: 100%;
+    font-size: 16px;
+    border: none;
+}
+
+canvas {
+    margin-top: 20px;
+    background: white;
+    border-radius: 10px;
+    width: 100%;
+    height: auto;
+}
+
+  </style>
+</head>
+<body>
+
+  <div class="forecast-section">
+    <h3 style="color: white;">📊 EMI Forecast</h3>
+    <label for="forecast-scenario" style="color: white;">Select Interest Rate Scenario:</label>
+    <select id="forecast-scenario" onchange="renderForecastChart()">
+      <option value="static">Static (10%)</option>
+      <option value="increase">Increase 1%/year</option>
+      <option value="decrease">Decrease 1%/year</option>
+    </select>
+    <canvas id="emiChart" width="400" height="200"></canvas>
+  </div>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    function calculateEMI(principal, annualRate, tenureYears) {
+      const r = annualRate / 12 / 100;
+      const n = tenureYears * 12;
+      return (principal * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+    }
+
+    function generateEMIData(scenario) {
+      const principal = 1000000; // Example: Rs. 10 Lac
+      const tenure = 5; // in years
+      const baseRate = 10;
+      const emiData = [];
+
+      for (let year = 0; year < tenure; year++) {
+        let rate;
+
+        if (scenario === 'static') {
+          rate = baseRate;
+        } else if (scenario === 'increase') {
+          rate = baseRate + year;
+        } else if (scenario === 'decrease') {
+          rate = baseRate - year;
+          if (rate < 1) rate = 1; // avoid 0 or negative interest
+        }
+
+        const emi = calculateEMI(principal, rate, tenure - year);
+        emiData.push(emi.toFixed(0));
+      }
+
+      return emiData;
+    }
+
+    let chartInstance;
+
+    function renderForecastChart() {
+      const ctx = document.getElementById('emiChart').getContext('2d');
+      const scenario = document.getElementById('forecast-scenario').value;
+      const data = generateEMIData(scenario);
+
+      const labels = ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'];
+
+      if (chartInstance) {
+        chartInstance.destroy();
+      }
+
+      chartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'EMI (Monthly)',
+            data: data,
+            borderColor: '#4bc0c0',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            tension: 0.3,
+            fill: true,
+            pointBackgroundColor: '#fff',
+            pointBorderColor: '#4bc0c0'
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: false,
+              title: {
+                display: true,
+                text: 'Monthly EMI (Rs.)'
+              }
+            },
+            x: {
+              title: {
+                display: true,
+                text: 'Loan Year'
+              }
+            }
+          }
+        }
+      });
+    }
+
+    // Render chart on load
+    window.onload = renderForecastChart;
+  </script>
+</body>
+</html>
