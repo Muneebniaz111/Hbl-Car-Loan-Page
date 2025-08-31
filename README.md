@@ -72,6 +72,6 @@ This project is open source and available under the [MIT License](LICENSE).
 ---
 
 **🔗 Author:** \[Muneeb Niaz]
-**🌐 GitHub:** ([https://github.com](https://github.com/Muneebniaz111/Hbl-Car-Loan-Page.git))
+**🌐 GitHub:** ((https://github.com/Muneebniaz111/Hbl-Car-Loan-Page.git))
 
 ```
