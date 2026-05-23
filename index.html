@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HBL Car Loan Calculator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+  <div class="page-wrapper">
+
+    <!-- Header -->
+    <header class="site-header">
+      <div class="logo-badge">
+        <div class="logo-dot">H</div>
+        <div class="logo-text">HBL <span>Finance</span></div>
+      </div>
+      <div class="header-tag">Car Loan Calculator</div>
+    </header>
+
+    <!-- Hero -->
+    <div class="hero-headline">
+      <h1>Plan Your Finance <em>The Right Way</em></h1>
+      <p>Calculate your ideal car loan with flexible terms tailored to your budget.</p>
+    </div>
+
+    <!-- Loan Type Tabs -->
+    <div class="loan-tabs">
+      <button class="tab-btn" onclick="switchTab(this)">Credit Card Installment</button>
+      <button class="tab-btn active" onclick="switchTab(this)">Car Loan</button>
+      <button class="tab-btn" onclick="switchTab(this)">Personal Loan</button>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="main-grid">
+
+      <!-- Left: Calculator Card -->
+      <div class="calculator-card">
+        <p class="calc-section-title">Adjust Your Parameters</p>
+
+        <!-- Vehicle Price -->
+        <div class="control-group">
+          <div class="control-label">
+            Vehicle Price <span class="unit-tag">PKR</span>
+          </div>
+          <div class="control">
+            <button class="stepper-btn" onclick="updateValue('price', -10000)" aria-label="Decrease price">−</button>
+            <div class="value-display">
+              <span class="value-number" id="vehicle-price">200,000</span>
+            </div>
+            <button class="stepper-btn" onclick="updateValue('price', 10000)" aria-label="Increase price">+</button>
+          </div>
+          <div class="mini-progress">
+            <div class="mini-progress-fill" id="price-bar" style="width:15%"></div>
+          </div>
+          <div class="control-hint" id="price-hint">Min: 50,000 &nbsp;·&nbsp; Max: 10,000,000</div>
+        </div>
+
+        <!-- Repayment Period -->
+        <div class="control-group">
+          <div class="control-label">
+            Repayment Period <span class="unit-tag">Months</span>
+          </div>
+          <div class="control">
+            <button class="stepper-btn" onclick="updateValue('months', -1)" aria-label="Decrease months">−</button>
+            <div class="value-display">
+              <span class="value-number" id="repay-months">48</span>
+            </div>
+            <button class="stepper-btn" onclick="updateValue('months', 1)" aria-label="Increase months">+</button>
+          </div>
+          <div class="mini-progress">
+            <div class="mini-progress-fill" id="months-bar" style="width:45%"></div>
+          </div>
+          <div class="control-hint">Min: 12 months &nbsp;·&nbsp; Max: 84 months</div>
+        </div>
+
+        <!-- Security Deposit -->
+        <div class="control-group" style="margin-bottom:0">
+          <div class="control-label">
+            Security Deposit <span class="unit-tag">%</span>
+          </div>
+          <div class="control">
+            <button class="stepper-btn" onclick="updateValue('deposit', -5)" aria-label="Decrease deposit">−</button>
+            <div class="value-display">
+              <span class="value-number" id="security-deposit">40%</span>
+            </div>
+            <button class="stepper-btn" onclick="updateValue('deposit', 5)" aria-label="Increase deposit">+</button>
+          </div>
+          <div class="mini-progress">
+            <div class="mini-progress-fill" id="deposit-bar" style="width:70%"></div>
+          </div>
+          <div class="control-hint">Min: 5% &nbsp;·&nbsp; Max: 95%</div>
+        </div>
+      </div>
+
+      <!-- Right Panel -->
+      <div class="right-panel">
+
+        <!-- Car Image -->
+        <div class="car-showcase">
+          <img src="Car.png" alt="Car Image" />
+        </div>
+
+        <!-- Results -->
+        <div class="results-row">
+
+          <!-- Monthly Installment (full-width highlight) -->
+          <div class="result-card highlight monthly">
+            <div class="monthly-left">
+              <p>Your Monthly Installment will be just</p>
+            </div>
+            <div class="monthly-right">
+              <div class="result-label">Monthly EMI</div>
+              <div class="result-amount">
+                <span class="currency-tag">PKR</span>
+                <span id="monthly-installment">48,242</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Financed Amount -->
+          <div class="result-card">
+            <div class="result-label">Financed Amount</div>
+            <div class="result-divider"></div>
+            <div class="result-amount">
+              <span class="currency-tag">PKR</span>
+              <span id="financed-amount">1,513,294</span>
+            </div>
+          </div>
+
+          <!-- Security Deposit -->
+          <div class="result-card">
+            <div class="result-label">Security Deposit</div>
+            <div class="result-divider"></div>
+            <div class="result-amount">
+              <span class="currency-tag">PKR</span>
+              <span id="deposit-amount">1,008,862</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-row">
+          <button class="btn btn-primary apply">
+            Apply Now
+            <img src="tabler_arrow-up.png" alt="" class="btn-arrow"/>
+          </button>
+          <button class="btn btn-outline info">
+            More Info
+            <img src="tabler_arrow-up.png" alt="" class="btn-arrow"/>
+          </button>
+          <a href="EMIs.html" target="_blank" style="text-decoration:none">
+            <button class="btn btn-accent">
+              Predict Future EMIs
+              <img src="tabler_arrow-up.png" alt="" class="btn-arrow"/>
+            </button>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Apply Modal -->
+  <div class="modal-overlay" id="apply-modal" role="dialog" aria-modal="true" aria-label="Loan Application">
+    <div class="modal-card">
+      <h3>Apply for Car Loan</h3>
+      <p class="modal-sub">Please fill in your details to generate your loan summary PDF.</p>
+
+      <div class="form-field">
+        <label for="applicant-name">Full Name</label>
+        <input type="text" id="applicant-name" placeholder="e.g. Ahmed Khan" autocomplete="name"/>
+      </div>
+      <div class="form-field">
+        <label for="applicant-account">HBL Account Number</label>
+        <input type="text" id="applicant-account" placeholder="e.g. 0001234567890" autocomplete="off"/>
+      </div>
+
+      <div class="modal-summary" id="modal-summary">
+        <div class="modal-summary-row">
+          <span>Monthly Installment</span>
+          <span class="val" id="ms-emi">—</span>
+        </div>
+        <div class="modal-summary-row">
+          <span>Financed Amount</span>
+          <span class="val" id="ms-financed">—</span>
+        </div>
+        <div class="modal-summary-row">
+          <span>Security Deposit</span>
+          <span class="val" id="ms-deposit">—</span>
+        </div>
+        <div class="modal-summary-row">
+          <span>Repayment Period</span>
+          <span class="val" id="ms-months">—</span>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-modal-cancel" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-modal-primary" onclick="submitApplication()">Generate PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

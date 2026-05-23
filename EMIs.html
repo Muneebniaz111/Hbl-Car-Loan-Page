@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EMI Forecast — HBL Finance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-900: #033528;
+      --green-800: #06543e;
+      --green-700: #0a7057;
+      --green-600: #0f8a6d;
+      --green-400: #1db88e;
+      --green-200: #7de3c1;
+      --white: #ffffff;
+      --font-display: 'Playfair Display', serif;
+      --font-body: 'DM Sans', sans-serif;
+      --radius-xl: 24px;
+      --radius-lg: 16px;
+      --radius-md: 10px;
+      --radius-pill: 50px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--green-900);
+      color: var(--white);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 20%, rgba(15,138,109,0.4) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 80%, rgba(6,84,62,0.5) 0%, transparent 60%),
+        linear-gradient(160deg, #033528 0%, #06543e 50%, #033528 100%);
+      z-index: -2;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: url('vector-pattern.png') center/cover;
+      opacity: 0.05;
+      z-index: -1;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 700px;
+      animation: fadeUp 0.7s ease both;
+    }
+
+    /* Header */
+    .emi-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+    }
+
+    .logo-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-dot {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, var(--green-400), var(--green-200));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 16px;
+      color: var(--green-900);
+    }
+
+    .logo-text {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .logo-text span { color: var(--green-200); }
+
+    .back-btn {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: rgba(255,255,255,0.8);
+      padding: 8px 18px;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .back-btn:hover {
+      background: rgba(255,255,255,0.15);
+      color: white;
+    }
+
+    /* Card */
+    .forecast-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius-xl);
+      padding: 36px 32px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 20px 60px rgba(3,53,40,0.35);
+    }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 30px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .card-title em {
+      font-style: normal;
+      color: var(--green-200);
+    }
+
+    .card-subtitle {
+      color: rgba(255,255,255,0.55);
+      font-size: 14px;
+      margin-bottom: 28px;
+    }
+
+    /* Controls Row */
+    .controls-row {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+
+    .field {
+      flex: 1;
+      min-width: 160px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--green-200);
+      margin-bottom: 8px;
+    }
+
+    .field select,
+    .field input {
+      width: 100%;
+      background: rgba(255,255,255,0.08);
+      border: 1.5px solid rgba(255,255,255,0.18);
+      color: white;
+      padding: 11px 14px;
+      border-radius: var(--radius-md);
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      outline: none;
+      transition: var(--transition);
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+    }
+
+    .field select:focus,
+    .field input:focus {
+      border-color: var(--green-400);
+      background: rgba(255,255,255,0.12);
+      box-shadow: 0 0 0 3px rgba(29,184,142,0.2);
+    }
+
+    .field select option {
+      background: var(--green-800);
+      color: white;
+    }
+
+    /* Stats Row */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .stat-pill {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius-md);
+      padding: 14px 12px;
+      text-align: center;
+    }
+
+    .stat-pill .val {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--green-200);
+      display: block;
+    }
+
+    .stat-pill .lbl {
+      font-size: 11px;
+      color: rgba(255,255,255,0.5);
+      margin-top: 2px;
+      font-weight: 500;
+    }
+
+    /* Chart area */
+    .chart-wrapper {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-lg);
+      padding: 20px 16px 12px;
+    }
+
+    canvas {
+      width: 100% !important;
+      height: auto !important;
+      max-height: 300px;
+    }
+
+    /* Table */
+    .emi-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 24px;
+      font-size: 14px;
+    }
+
+    .emi-table th {
+      background: rgba(255,255,255,0.08);
+      padding: 10px 14px;
+      text-align: left;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      color: var(--green-200);
+    }
+
+    .emi-table th:first-child { border-radius: 8px 0 0 8px; }
+    .emi-table th:last-child  { border-radius: 0 8px 8px 0; }
+
+    .emi-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.85);
+    }
+
+    .emi-table tr:last-child td { border-bottom: none; }
+    .emi-table tr:hover td { background: rgba(255,255,255,0.04); }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .badge-up   { background: rgba(239,68,68,0.2);  color: #fca5a5; }
+    .badge-down { background: rgba(34,197,94,0.2);  color: #86efac; }
+    .badge-flat { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 560px) {
+      .forecast-card { padding: 24px 18px; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .controls-row { flex-direction: column; }
+      .emi-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="emi-header">
+    <div class="logo-badge">
+      <div class="logo-dot">H</div>
+      <div class="logo-text">HBL <span>Finance</span></div>
+    </div>
+    <a href="index.html" class="back-btn">← Back to Calculator</a>
+  </div>
+
+  <!-- Forecast Card -->
+  <div class="forecast-card">
+    <h2 class="card-title">EMI <em>Forecast</em></h2>
+    <p class="card-subtitle">Visualize how your monthly payment evolves across different interest rate scenarios.</p>
+
+    <!-- Controls -->
+    <div class="controls-row">
+      <div class="field">
+        <label for="forecast-scenario">Interest Rate Scenario</label>
+        <select id="forecast-scenario" onchange="renderForecastChart()">
+          <option value="static">Static (10%)</option>
+          <option value="increase">Increase 1%/year</option>
+          <option value="decrease">Decrease 1%/year</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="loan-tenure">Loan Tenure (Years)</label>
+        <select id="loan-tenure" onchange="renderForecastChart()">
+          <option value="3">3 Years</option>
+          <option value="5" selected>5 Years</option>
+          <option value="7">7 Years</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="principal-amount">Loan Principal (PKR)</label>
+        <input type="number" id="principal-amount" value="1000000" step="50000" min="100000" onchange="renderForecastChart()"/>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-pill">
+        <span class="val" id="stat-min">—</span>
+        <div class="lbl">Min EMI</div>
+      </div>
+      <div class="stat-pill">
+        <span class="val" id="stat-max">—</span>
+        <div class="lbl">Max EMI</div>
+      </div>
+      <div class="stat-pill">
+        <span class="val" id="stat-total">—</span>
+        <div class="lbl">Total Paid</div>
+      </div>
+    </div>
+
+    <!-- Chart -->
+    <div class="chart-wrapper">
+      <canvas id="emiChart"></canvas>
+    </div>
+
+    <!-- Table -->
+    <table class="emi-table" id="emi-table">
+      <thead>
+        <tr>
+          <th>Year</th>
+          <th>Rate</th>
+          <th>Monthly EMI</th>
+          <th>Change</th>
+        </tr>
+      </thead>
+      <tbody id="emi-tbody"></tbody>
+    </table>
+  </div>
+
+</div>
+
+<script>
+  function calculateEMI(principal, annualRate, tenureYears) {
+    const r = annualRate / 12 / 100;
+    const n = tenureYears * 12;
+    if (r === 0) return principal / n;
+    return (principal * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+  }
+
+  function generateEMIData(scenario, principal, tenure) {
+    const baseRate = 10;
+    const emiData = [];
+    const rates = [];
+
+    for (let year = 1; year <= tenure; year++) {
+      let rate;
+      if (scenario === 'static') {
+        rate = baseRate;
+      } else if (scenario === 'increase') {
+        rate = baseRate + (year - 1);
+      } else {
+        rate = Math.max(1, baseRate - (year - 1));
+      }
+      rates.push(rate);
+      const emi = calculateEMI(principal, rate, tenure);
+      emiData.push(Math.round(emi));
+    }
+    return { emis: emiData, rates };
+  }
+
+  let chartInstance = null;
+
+  function fmt(n) {
+    if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
+    if (n >= 1000)    return (n / 1000).toFixed(0) + 'K';
+    return n.toLocaleString();
+  }
+
+  function renderForecastChart() {
+    const scenario  = document.getElementById('forecast-scenario').value;
+    const tenure    = parseInt(document.getElementById('loan-tenure').value) || 5;
+    const principal = parseFloat(document.getElementById('principal-amount').value) || 1000000;
+
+    const { emis, rates } = generateEMIData(scenario, principal, tenure);
+    const labels = emis.map((_, i) => 'Year ' + (i + 1));
+
+    // Stats
+    const minEMI = Math.min(...emis);
+    const maxEMI = Math.max(...emis);
+    const totalPaid = emis.reduce((s, e) => s + e * 12, 0);
+
+    document.getElementById('stat-min').innerText   = 'PKR ' + fmt(minEMI);
+    document.getElementById('stat-max').innerText   = 'PKR ' + fmt(maxEMI);
+    document.getElementById('stat-total').innerText = 'PKR ' + fmt(totalPaid);
+
+    // Table
+    const tbody = document.getElementById('emi-tbody');
+    tbody.innerHTML = '';
+    emis.forEach((emi, i) => {
+      const prev = i > 0 ? emis[i - 1] : null;
+      let badge = '<span class="badge badge-flat">—</span>';
+      if (prev !== null) {
+        const diff = emi - prev;
+        if (diff > 0)      badge = `<span class="badge badge-up">▲ ${fmt(diff)}</span>`;
+        else if (diff < 0) badge = `<span class="badge badge-down">▼ ${fmt(Math.abs(diff))}</span>`;
+        else               badge = `<span class="badge badge-flat">No change</span>`;
+      }
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${labels[i]}</td>
+        <td>${rates[i]}%</td>
+        <td>PKR ${emi.toLocaleString()}</td>
+        <td>${badge}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    // Chart
+    const ctx = document.getElementById('emiChart').getContext('2d');
+    if (chartInstance) chartInstance.destroy();
+
+    chartInstance = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Monthly EMI (PKR)',
+          data: emis,
+          borderColor: '#1db88e',
+          backgroundColor: 'rgba(29,184,142,0.12)',
+          borderWidth: 2.5,
+          tension: 0.35,
+          fill: true,
+          pointBackgroundColor: '#7de3c1',
+          pointBorderColor: '#1db88e',
+          pointRadius: 5,
+          pointHoverRadius: 8,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        interaction: { intersect: false, mode: 'index' },
+        plugins: {
+          legend: {
+            labels: {
+              color: 'rgba(255,255,255,0.7)',
+              font: { family: 'DM Sans', size: 12 }
+            }
+          },
+          tooltip: {
+            backgroundColor: 'rgba(3,53,40,0.95)',
+            titleColor: '#7de3c1',
+            bodyColor: 'white',
+            borderColor: 'rgba(29,184,142,0.3)',
+            borderWidth: 1,
+            callbacks: {
+              label: ctx => ' PKR ' + ctx.parsed.y.toLocaleString()
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: false,
+            grid: { color: 'rgba(255,255,255,0.06)' },
+            ticks: {
+              color: 'rgba(255,255,255,0.5)',
+              font: { family: 'DM Sans', size: 11 },
+              callback: v => 'PKR ' + fmt(v)
+            },
+            title: {
+              display: true,
+              text: 'Monthly EMI (PKR)',
+              color: 'rgba(255,255,255,0.5)',
+              font: { size: 11 }
+            }
+          },
+          x: {
+            grid: { color: 'rgba(255,255,255,0.04)' },
+            ticks: { color: 'rgba(255,255,255,0.5)', font: { family: 'DM Sans', size: 11 } },
+            title: {
+              display: true,
+              text: 'Loan Year',
+              color: 'rgba(255,255,255,0.5)',
+              font: { size: 11 }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  window.addEventListener('DOMContentLoaded', renderForecastChart);
+</script>
+</body>
+</html>

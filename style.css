@@ -1,0 +1,862 @@
+/* ============================
+   HBL Car Loan — Redesigned
+   Modern, Responsive, Premium
+   ============================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+
+/* ─── CSS Variables ──────────────────────── */
+:root {
+  --green-900: #033528;
+  --green-800: #06543e;
+  --green-700: #0a7057;
+  --green-600: #0f8a6d;
+  --green-400: #1db88e;
+  --green-200: #7de3c1;
+  --green-100: #c3f4e4;
+  --white: #ffffff;
+  --off-white: #f4faf8;
+  --card-bg: rgba(255,255,255,0.97);
+  --shadow-lg: 0 20px 60px rgba(3,53,40,0.35);
+  --shadow-md: 0 8px 30px rgba(3,53,40,0.2);
+  --shadow-sm: 0 4px 12px rgba(3,53,40,0.1);
+  --radius-xl: 24px;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-pill: 50px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --font-display: 'Playfair Display', serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+
+/* ─── Reset & Base ──────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--green-900);
+  color: var(--white);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ─── Animated Background ───────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 20%, rgba(15,138,109,0.4) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(6,84,62,0.5) 0%, transparent 60%),
+    linear-gradient(160deg, #033528 0%, #06543e 40%, #0a7057 70%, #033528 100%);
+  z-index: -2;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: url('vector-pattern.png') center/cover;
+  opacity: 0.06;
+  z-index: -1;
+}
+
+/* ─── Page Wrapper ──────────────────────── */
+.page-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px 40px 60px;
+}
+
+/* ─── Header ─────────────────────────────── */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 48px;
+  animation: fadeDown 0.7s ease both;
+}
+
+.logo-badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-dot {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, var(--green-400), var(--green-200));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--green-900);
+  box-shadow: 0 4px 16px rgba(29,184,142,0.4);
+}
+
+.logo-text {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.logo-text span {
+  color: var(--green-200);
+}
+
+.header-tag {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  backdrop-filter: blur(10px);
+  padding: 8px 20px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--green-100);
+  letter-spacing: 0.5px;
+}
+
+/* ─── Hero Headline ──────────────────────── */
+.hero-headline {
+  margin-bottom: 44px;
+  animation: fadeDown 0.7s 0.1s ease both;
+}
+
+.hero-headline h1 {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 5.5vw, 76px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  color: var(--white);
+  max-width: 700px;
+}
+
+.hero-headline h1 em {
+  font-style: normal;
+  color: var(--green-200);
+}
+
+.hero-headline p {
+  margin-top: 14px;
+  font-size: 16px;
+  color: rgba(255,255,255,0.6);
+  font-weight: 400;
+  max-width: 480px;
+}
+
+/* ─── Loan Type Tabs ──────────────────────── */
+.loan-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.7);
+  padding: 10px 22px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  backdrop-filter: blur(8px);
+  white-space: nowrap;
+}
+
+.tab-btn:hover {
+  background: rgba(255,255,255,0.15);
+  color: var(--white);
+  border-color: rgba(255,255,255,0.3);
+}
+
+.tab-btn.active {
+  background: var(--white);
+  color: var(--green-800);
+  border-color: var(--white);
+  font-weight: 700;
+  box-shadow: 0 4px 20px rgba(255,255,255,0.25);
+}
+
+/* ─── Main Layout ─────────────────────────── */
+.main-grid {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  gap: 28px;
+  align-items: start;
+  animation: fadeUp 0.8s 0.2s ease both;
+}
+
+/* ─── Calculator Card ─────────────────────── */
+.calculator-card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  backdrop-filter: blur(20px);
+  box-shadow: var(--shadow-lg);
+}
+
+.calc-section-title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--green-200);
+  margin-bottom: 28px;
+}
+
+/* ─── Control Row ─────────────────────────── */
+.control-group {
+  margin-bottom: 28px;
+}
+
+.control-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.control-label .unit-tag {
+  background: rgba(255,255,255,0.1);
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--green-200);
+  letter-spacing: 0.5px;
+}
+
+.control {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* ─── Stepper Buttons ─────────────────────── */
+.stepper-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.08);
+  color: white;
+  font-size: 20px;
+  font-weight: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+  flex-shrink: 0;
+  user-select: none;
+  backdrop-filter: blur(8px);
+  line-height: 1;
+}
+
+.stepper-btn:hover {
+  background: var(--white);
+  color: var(--green-800);
+  border-color: var(--white);
+  transform: scale(1.08);
+  box-shadow: 0 4px 16px rgba(255,255,255,0.25);
+}
+
+.stepper-btn:active {
+  transform: scale(0.95);
+}
+
+/* ─── Value Display ───────────────────────── */
+.value-display {
+  flex: 1;
+  background: rgba(255,255,255,0.05);
+  border: 1.5px solid rgba(255,255,255,0.2);
+  border-radius: var(--radius-lg);
+  padding: 14px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.value-display::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+.value-display:hover {
+  border-color: rgba(255,255,255,0.35);
+  background: rgba(255,255,255,0.08);
+}
+
+.value-number {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--white);
+  display: block;
+  transition: var(--transition);
+  line-height: 1;
+}
+
+.value-number.pulse {
+  animation: valuePulse 0.3s ease;
+}
+
+/* ─── Right Panel ─────────────────────────── */
+.right-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ─── Car Image Section ───────────────────── */
+.car-showcase {
+  position: relative;
+  text-align: center;
+  padding: 16px 0;
+}
+
+.car-showcase img {
+  width: 100%;
+  max-width: 680px;
+  height: auto;
+  filter: drop-shadow(0 20px 40px rgba(0,0,0,0.4)) drop-shadow(0 0 60px rgba(29,184,142,0.15));
+  animation: carFloat 4s ease-in-out infinite;
+  transition: filter 0.4s ease;
+}
+
+.car-showcase img:hover {
+  filter: drop-shadow(0 24px 48px rgba(0,0,0,0.5)) drop-shadow(0 0 80px rgba(29,184,142,0.25));
+}
+
+/* ─── Results Row ─────────────────────────── */
+.results-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+}
+
+.result-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  padding: 20px 18px;
+  color: var(--green-900);
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+  border: 1.5px solid rgba(6,84,62,0.08);
+}
+
+.result-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--green-600), var(--green-400));
+  border-radius: 4px 4px 0 0;
+}
+
+.result-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.result-card.highlight {
+  background: linear-gradient(135deg, var(--green-800), var(--green-600));
+  color: white;
+  border-color: transparent;
+}
+
+.result-card.highlight::before {
+  background: linear-gradient(90deg, var(--green-200), white);
+}
+
+.result-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--green-700);
+  margin-bottom: 10px;
+}
+
+.result-card.highlight .result-label {
+  color: rgba(255,255,255,0.7);
+}
+
+.result-divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(6,84,62,0.1);
+  margin-bottom: 10px;
+}
+
+.result-card.highlight .result-divider {
+  background: rgba(255,255,255,0.2);
+}
+
+.result-amount {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--green-800);
+  transition: var(--transition);
+}
+
+.result-card.highlight .result-amount {
+  color: white;
+}
+
+.result-amount .currency-tag {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--green-600);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.result-card.highlight .result-amount .currency-tag {
+  color: rgba(255,255,255,0.75);
+}
+
+/* Monthly installment card spans full width */
+.results-row .result-card.monthly {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 28px;
+}
+
+.monthly-left p {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.8);
+  max-width: 200px;
+  line-height: 1.4;
+}
+
+.monthly-right {
+  text-align: right;
+}
+
+.monthly-right .result-label {
+  color: rgba(255,255,255,0.7);
+  text-align: right;
+}
+
+.monthly-right .result-amount {
+  font-size: 34px;
+  color: white;
+}
+
+/* ─── Action Buttons ──────────────────────── */
+.action-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 26px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  border: none;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: var(--white);
+  color: var(--green-800);
+  box-shadow: 0 4px 20px rgba(255,255,255,0.2);
+}
+
+.btn-primary:hover {
+  background: var(--green-100);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(255,255,255,0.3);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--white);
+  border: 1.5px solid rgba(255,255,255,0.35);
+  backdrop-filter: blur(8px);
+}
+
+.btn-outline:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.6);
+  transform: translateY(-2px);
+}
+
+.btn-accent {
+  background: linear-gradient(135deg, var(--green-400), var(--green-600));
+  color: white;
+  box-shadow: 0 4px 20px rgba(29,184,142,0.35);
+}
+
+.btn-accent:hover {
+  background: linear-gradient(135deg, var(--green-200), var(--green-400));
+  color: var(--green-900);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(29,184,142,0.5);
+}
+
+.btn-arrow {
+  width: 20px;
+  height: 20px;
+  opacity: 0.8;
+  transition: transform 0.3s ease;
+}
+
+.btn:hover .btn-arrow {
+  transform: translate(3px, -3px);
+  opacity: 1;
+}
+
+/* ─── Progress indicators inside calculator ─ */
+.control-hint {
+  margin-top: 6px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  text-align: center;
+}
+
+/* ─── Slider (visual only progress bar) ──── */
+.mini-progress {
+  margin-top: 10px;
+  height: 4px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.mini-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--green-400), var(--green-200));
+  border-radius: 10px;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ─── Modal Overlay ───────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(3,53,40,0.85);
+  backdrop-filter: blur(12px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.modal-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal-card {
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  padding: 40px;
+  width: 100%;
+  max-width: 480px;
+  color: var(--green-900);
+  box-shadow: var(--shadow-lg);
+  transform: scale(0.92) translateY(20px);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.modal-overlay.open .modal-card {
+  transform: scale(1) translateY(0);
+}
+
+.modal-card h3 {
+  font-family: var(--font-display);
+  font-size: 26px;
+  color: var(--green-800);
+  margin-bottom: 6px;
+}
+
+.modal-card p.modal-sub {
+  color: rgba(6,84,62,0.6);
+  font-size: 14px;
+  margin-bottom: 28px;
+}
+
+.form-field {
+  margin-bottom: 18px;
+}
+
+.form-field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--green-700);
+  margin-bottom: 6px;
+  letter-spacing: 0.3px;
+}
+
+.form-field input {
+  width: 100%;
+  padding: 13px 16px;
+  border: 1.5px solid rgba(6,84,62,0.2);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--green-900);
+  background: var(--off-white);
+  transition: var(--transition);
+  outline: none;
+}
+
+.form-field input:focus {
+  border-color: var(--green-600);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(15,138,109,0.12);
+}
+
+.modal-summary {
+  background: var(--off-white);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  margin: 20px 0;
+  border: 1px solid rgba(6,84,62,0.1);
+}
+
+.modal-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  font-size: 14px;
+}
+
+.modal-summary-row:not(:last-child) {
+  border-bottom: 1px solid rgba(6,84,62,0.08);
+}
+
+.modal-summary-row .val {
+  font-weight: 700;
+  color: var(--green-700);
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.modal-actions .btn {
+  flex: 1;
+  justify-content: center;
+}
+
+.btn-modal-primary {
+  background: linear-gradient(135deg, var(--green-700), var(--green-600));
+  color: white;
+}
+
+.btn-modal-primary:hover {
+  background: linear-gradient(135deg, var(--green-800), var(--green-700));
+  transform: translateY(-1px);
+}
+
+.btn-modal-cancel {
+  background: rgba(6,84,62,0.08);
+  color: var(--green-700);
+  border: 1.5px solid rgba(6,84,62,0.15);
+}
+
+.btn-modal-cancel:hover {
+  background: rgba(6,84,62,0.14);
+}
+
+/* ─── Toast ───────────────────────────────── */
+.toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--green-800);
+  color: white;
+  padding: 14px 28px;
+  border-radius: var(--radius-pill);
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: var(--shadow-lg);
+  z-index: 2000;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+  opacity: 0;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+/* ─── Animations ──────────────────────────── */
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes carFloat {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+
+@keyframes valuePulse {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.12); color: var(--green-200); }
+  100% { transform: scale(1); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ─── Scrollbar ───────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--green-900); }
+::-webkit-scrollbar-thumb { background: var(--green-600); border-radius: 10px; }
+
+/* ─── Responsive: Tablet (≤1100px) ──────── */
+@media (max-width: 1100px) {
+  .main-grid {
+    grid-template-columns: 360px 1fr;
+    gap: 22px;
+  }
+  .car-showcase img { max-width: 520px; }
+}
+
+@media (max-width: 920px) {
+  .main-grid {
+    grid-template-columns: 1fr;
+  }
+  .calculator-card {
+    max-width: 100%;
+  }
+  .car-showcase img {
+    max-width: 420px;
+  }
+  .results-row {
+    grid-template-columns: 1fr 1fr;
+  }
+  .results-row .result-card.monthly {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ─── Responsive: Mobile (≤640px) ───────── */
+@media (max-width: 640px) {
+  .page-wrapper {
+    padding: 24px 16px 48px;
+  }
+
+  .site-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .hero-headline h1 {
+    font-size: clamp(28px, 8vw, 44px);
+  }
+
+  .loan-tabs {
+    gap: 8px;
+  }
+
+  .tab-btn {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+
+  .calculator-card {
+    padding: 22px 18px;
+  }
+
+  .stepper-btn {
+    width: 42px;
+    height: 42px;
+    font-size: 18px;
+  }
+
+  .value-number { font-size: 24px; }
+
+  .results-row {
+    grid-template-columns: 1fr;
+  }
+
+  .results-row .result-card.monthly {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .monthly-right { text-align: left; }
+
+  .action-row {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .car-showcase img {
+    max-width: 300px;
+  }
+
+  .modal-card {
+    padding: 28px 22px;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+}
